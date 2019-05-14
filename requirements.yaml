@@ -1,0 +1,14 @@
+# myapp/requirements.yaml
+dependencies:
+  - name: aws-appmesh-inject
+    repository: http://localhost:10191
+    version: 0.1.3
+  - name: aws-appmesh-controller
+    repository: http://localhost:10191
+    version: 0.1.0
+  - name: aws-appmesh-prometheus
+    repository: http://localhost:10191
+    version: 0.1.0
+  - name: aws-appmesh-grafana
+    repository: http://localhost:10191
+    version: 0.1.0

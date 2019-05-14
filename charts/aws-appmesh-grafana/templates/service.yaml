@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "aws-appmesh-grafana.name" . }}
+    helm.sh/chart: {{ include "aws-appmesh-grafana.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  selector:
+    app.kubernetes.io/name: {{ include "aws-appmesh-grafana.name" . }}
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000

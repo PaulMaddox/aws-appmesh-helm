@@ -1,0 +1,6 @@
+apiVersion: v1
+appVersion: "1.0"
+description: Prometheus, preconfigured to scrape AWS App Mesh endpoints
+name: aws-appmesh-prometheus
+version: 0.1.0
+home: https://github.com/aws/aws-app-mesh-prometheus

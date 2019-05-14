@@ -1,0 +1,50 @@
+{{- $ca := genCA "svc-cat-ca" 3650 }}
+{{- $cn := include "aws-appmesh-inject.name" . -}}
+{{- $altName1 := printf "%s.%s" $cn .Release.Namespace }}
+{{- $altName2 := printf "%s.%s.svc" $cn .Release.Namespace }}
+{{- $cert := genSignedCert $cn nil (list $altName1 $altName2) 3650 $ca }}
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: {{ include "aws-appmesh-inject.name" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "aws-appmesh-inject.name" . }}
+    helm.sh/chart: {{ include "aws-appmesh-inject.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+webhooks:
+  - name: aws-app-mesh-inject.aws.amazon.com
+    clientConfig:
+      service:
+        name: {{ include "aws-appmesh-inject.name" . }}
+        namespace: {{ .Release.Namespace }}
+        path: "/"
+      caBundle: {{ b64enc $ca.Cert }}
+    rules:
+      - operations: ["CREATE","UPDATE"]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+    failurePolicy: Ignore
+    namespaceSelector:
+      matchLabels:
+        appmesh.k8s.aws/sidecarInjectorWebhook: enabled
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ template "aws-appmesh-inject.name" . }}-certs
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "aws-appmesh-inject.name" . }}
+    helm.sh/chart: {{ include "aws-appmesh-inject.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    "helm.sh/hook": "pre-install"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+type: Opaque
+data:
+  cert.pem: {{ b64enc $cert.Cert }}
+  key.pem: {{ b64enc $cert.Key }}

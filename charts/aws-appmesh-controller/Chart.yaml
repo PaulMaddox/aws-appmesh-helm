@@ -1,0 +1,6 @@
+apiVersion: v1
+appVersion: "1.0"
+description: AWS App Mesh Controller For K8s is a controller to help manage AppMesh resources for a Kubernetes cluster. The controller watches custom resources for changes and reflects those changes into the App Mesh API. It is accompanied by the deployment of three custom resource definitions (CRDs) for meshes, virtualnodes, and virtualservices. These map to App Mesh API objects which the controller manages for you.
+name: aws-appmesh-controller
+version: 0.1.0
+home: https://github.com/aws/aws-app-mesh-controller-for-k8s

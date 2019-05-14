@@ -1,0 +1,5 @@
+apiVersion: v1
+appVersion: "1.0"
+description: "This helm chart is a metachart, that installs the following charts: aws-appmesh-inject, aws-appmesh-controller, aws-appmesh-prometheus and aws-appmesh-grafana"
+name: aws-appmesh
+version: 1.0.0
