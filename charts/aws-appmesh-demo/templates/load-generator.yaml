@@ -1,0 +1,50 @@
+---
+apiVersion: appmesh.k8s.aws/v1beta1
+kind: VirtualNode
+metadata:
+  name: load-generator
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: load-generator
+    helm.sh/chart: {{ include "aws-appmesh-demo.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  meshName: appmesh
+  backends:
+    # Allow outbound communication to the nginx service
+    - virtualService:
+        virtualServiceName: nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load-generator
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: load-generator
+    helm.sh/chart: {{ include "aws-appmesh-demo.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: load-generator
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: load-generator
+    spec:
+      containers:
+        - name: loader
+          ports:
+            - containerPort: 80
+          image: maddox/debug:latest
+          command:
+            - /usr/local/bin/wrk
+            - --connections=100
+            - --threads=8
+            - --duration=24h
+            - --latency
+            - http://nginx
