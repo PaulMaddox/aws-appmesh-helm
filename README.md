@@ -4,14 +4,14 @@
 
 ```bash
 # install K8s CLI, Helm and eksctl
-$ brew tap weaveworks/tap
-$ brew install kubernetes-cli kubernetes-helm weaveworks/tap/eksctl
+brew tap weaveworks/tap
+brew install kubernetes-cli kubernetes-helm weaveworks/tap/eksctl
 
 # deploy a K8s cluster (takes ~10min)
-$ eksctl create cluster --appmesh-access
+eksctl create cluster --appmesh-access
 
 # verify the cluster is up, and nodes are connected
-$ kubectl get nodes
+kubectl get nodes
 NAME                                           STATUS   ROLES    AGE   VERSION
 ip-192-168-10-51.eu-west-1.compute.internal    Ready    <none>   0d   v1.11.5
 ip-192-168-14-229.eu-west-1.compute.internal   Ready    <none>   0d   v1.11.5
@@ -21,13 +21,13 @@ ip-192-168-14-229.eu-west-1.compute.internal   Ready    <none>   0d   v1.11.5
 
 ```bash
 # install helm cli
-$ brew install kubernetes-helm
+brew install kubernetes-helm
 
 # setup k8s rbac for helm
-$ kubectl apply -f https://raw.githubusercontent.com/PaulMaddox/aws-appmesh-helm/master/scripts/helm-rbac.yaml
+kubectl apply -f https://raw.githubusercontent.com/PaulMaddox/aws-appmesh-helm/master/scripts/helm-rbac.yaml
 
 # depoy helm into the cluster
-$ helm init --service-account tiller
+helm init --service-account tiller
 ```
 
 ## Install AWS App Mesh
@@ -35,12 +35,12 @@ $ helm init --service-account tiller
 Deploy AWS App Mesh. This will deploy a mutating webhook admission controller to automatically inject all of your containers with an envoy sidecar, AWS X-Ray integration, and a StatsD exporter for prometheus metrics.
 
 ```bash
-$ helm install -n aws-appmesh --namespace appmesh-system https://github.com/PaulMaddox/aws-appmesh-helm/releases/latest/download/aws-appmesh.tgz
+helm install -n aws-appmesh --namespace appmesh-system https://github.com/PaulMaddox/aws-appmesh-helm/releases/latest/download/aws-appmesh.tgz
 ```
 
 Confirm the AWS App Mesh pods are up and running:
 ```bash
-$ kubectl get pods -n appmesh-system
+kubectl get pods -n appmesh-system
 NAME                                      READY   STATUS              RESTARTS   AGE
 aws-appmesh-controller-7bcf7d87cf-7lgbq   1/1     Running             0          1m
 aws-appmesh-grafana-5b87c9cf9-8m67p       1/1     Running             0          1m
@@ -55,20 +55,20 @@ Deploy a demo application that consists of a service that generates HTTP load, a
 ```bash
 
 # create a k8s namespace for the demo
-$ kubectl create ns appmesh-demo
+kubectl create ns appmesh-demo
 
 # enable auto-injection of AWS App Mesh sidecars for this namespace
-$ kubectl label namespace appmesh-demo appmesh.k8s.aws/sidecarInjectorWebhook=enabled
+kubectl label namespace appmesh-demo appmesh.k8s.aws/sidecarInjectorWebhook=enabled
 
 # deploy the demo
-$ helm install -n aws-appmesh-demo --namespace appmesh-demo https://github.com/PaulMaddox/aws-appmesh-helm/releases/latest/download/aws-appmesh-demo.tgz
+helm install -n aws-appmesh-demo --namespace appmesh-demo https://github.com/PaulMaddox/aws-appmesh-helm/releases/latest/download/aws-appmesh-demo.tgz
 
 ```
 
 Confirm the demo pods have been deployed. 
 
 ```bash
-$ kubectl get all -n appmesh-demo
+kubectl get all -n appmesh-demo
 NAME                             READY   STATUS    RESTARTS   AGE
 load-generator-bb87d68fc-mr4vc   4/4     Running       1          19s
 load-generator-bb87d68fc-rmzjc   4/4     Running       1          19s
@@ -93,7 +93,7 @@ It's completely possible to disable AWS X-Ray, or the StatsD prometheus exporter
 AWS App Mesh will automatically emit metrics to AWS X-Ray (via the auto-injected AWS X-Ray daemon sidecar):
 
 ```bash
-$ open https://eu-west-1.console.aws.amazon.com/xray/home?region=eu-west-1#/service-map
+open https://eu-west-1.console.aws.amazon.com/xray/home?region=eu-west-1#/service-map
 ```
 
 From here you can explore your microservices within the AWS X-Ray console.
@@ -108,8 +108,8 @@ From here you can explore your microservices within the AWS X-Ray console.
 Promtheus & Grafana dashboards have also automatically been configured.
 
 ```bash
-$ kubectl -n appmesh-system port-forward svc/grafana 3000:3000
-$ open http://localhost:3000
+kubectl -n appmesh-system port-forward svc/grafana 3000:3000
+open http://localhost:3000
 ```
 
 There are two preconfigured dashboards provided; one that provides a general overview of AWS App Mesh, and another that provides a per-service view. 
@@ -121,6 +121,6 @@ There are two preconfigured dashboards provided; one that provides a general ove
 ## Uninstall
 
 ```bash
-$ helm del --purge aws-appmesh
-$ helm del --purge aws-appmesh-demo
+helm del --purge aws-appmesh
+helm del --purge aws-appmesh-demo
 ```
