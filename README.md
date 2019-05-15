@@ -35,12 +35,7 @@ $ helm init --service-account tiller
 Deploy AWS App Mesh. This will deploy a mutating webhook admission controller to automatically inject all of your containers with an envoy sidecar, AWS X-Ray integration, and a StatsD exporter for prometheus metrics.
 
 ```bash
-# checkout this repository
-$ git clone https://github.com/PaulMaddox/aws-appmesh-helm.git
-
-# install aws-appmesh
-$ cd aws-appmesh-helm
-$ helm install -n aws-appmesh --namespace appmesh-system .
+$ helm install -n aws-appmesh --namespace appmesh-system https://github.com/PaulMaddox/aws-appmesh-helm/releases/latest/download/aws-appmesh.tgz
 ```
 
 Confirm the AWS App Mesh pods are up and running:
@@ -66,7 +61,8 @@ $ kubectl create ns appmesh-demo
 $ kubectl label namespace appmesh-demo appmesh.k8s.aws/sidecarInjectorWebhook=enabled
 
 # deploy the demo
-$ helm install -n aws-appmesh-demo --namespace appmesh-demo demo/aws-appmesh-demo
+$ helm install -n aws-appmesh-demo --namespace appmesh-demo https://github.com/PaulMaddox/aws-appmesh-helm/releases/latest/download/aws-appmesh-demo.tgz
+
 ```
 
 Confirm the demo pods have been deployed. 
