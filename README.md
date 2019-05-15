@@ -1,4 +1,14 @@
 # Configuring AWS App Mesh and Kubernetes
+- [Overview](#overview)
+- [Deploy an EKS cluster](#deploy-an-eks-cluster)
+- [Install Helm](#install-helm)
+- [Install AWS App Mesh](#install-aws-app-mesh)
+- [Deploy the demo application](#deploy-the-demo-application)
+- [AWS X-Ray Integration](#aws-x-ray-integration)
+- [Grafana / Prometheus Integration](#grafana--prometheus-integration)
+- [Uninstall](#uninstall)
+
+## Overview
 
 This repository contains [helm](https://helm.sh) charts to make deploying AWS AppMesh to a Kubernetes cluster (for example, on [Amazon EKS](https://aws.amazon.com/eks/)) really easy. 
 
@@ -26,6 +36,7 @@ You can verify the cluster created successfully by running `kubectl get nodes`. 
 NAME                                           STATUS   ROLES    AGE   VERSION
 ip-192-168-10-51.eu-west-1.compute.internal    Ready    <none>   0d   v1.11.5
 ip-192-168-14-229.eu-west-1.compute.internal   Ready    <none>   0d   v1.11.5
+```
 
 ## Install Helm
 
