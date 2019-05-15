@@ -1,6 +1,0 @@
-AWS App Mesh injector has now been installed as a mutating webhook admission controller.
-
-To enable automatic AWS App Mesh sidecar injection for a namespace, you need to label the namespace with appmesh.k8s.aws/sidecarInjectorWebhook=enabled
-
-For example:
-$ kubectl label namespace default appmesh.k8s.aws/sidecarInjectorWebhook=enabled

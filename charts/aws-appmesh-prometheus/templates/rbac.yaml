@@ -43,12 +43,11 @@ metadata:
     helm.sh/chart: {{ include "aws-appmesh-prometheus.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "aws-appmesh-prometheus.name" . }}
 subjects:
   - kind: ServiceAccount
     name: {{ include "aws-appmesh-prometheus.name" . }}
     namespace: {{ .Release.Namespace }}
-    apiGroup: ""
-roleRef:
-  kind: ClusterRole
-  name: {{ include "aws-appmesh-prometheus.name" . }}
-  apiGroup: ""

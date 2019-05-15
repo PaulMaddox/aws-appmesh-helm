@@ -29,12 +29,12 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: load-generator
+      app.kubernetes.io/name: load-generator
   replicas: 3
   template:
     metadata:
       labels:
-        app: load-generator
+        app.kubernetes.io/name: load-generator
     spec:
       containers:
         - name: loader

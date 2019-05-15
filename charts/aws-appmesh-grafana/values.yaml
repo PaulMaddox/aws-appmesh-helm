@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: maddox/aws-appmesh-grafana
-  tag: v1.0.0
+  tag: latest
 
 nameOverride: "aws-appmesh-grafana"
 fullnameOverride: ""

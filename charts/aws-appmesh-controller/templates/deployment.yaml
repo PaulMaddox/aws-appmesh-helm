@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: {{ include "aws-appmesh-controller.name" . }}
   namespace: {{ .Release.Namespace }}
-  annotations:
-    "helm.sh/hook": "post-delete"
   labels:
     app.kubernetes.io/name: {{ include "aws-appmesh-controller.name" . }}
     helm.sh/chart: {{ include "aws-appmesh-controller.chart" . }}
