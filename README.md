@@ -92,7 +92,7 @@ These are:
 
 It's completely possible to disable AWS X-Ray, or the StatsD prometheus exporter if you do not need them. // TODO: provide details around overriding helm chart values for this.
 
-## View the AWS App Mesh dashboards
+## AWS X-Ray Integration
 
 AWS App Mesh will automatically emit metrics to AWS X-Ray (via the auto-injected AWS X-Ray daemon sidecar):
 
@@ -107,14 +107,20 @@ From here you can explore your microservices within the AWS X-Ray console.
 ![xray-traces](images/xray-traces.png)
 ![xray-latency](images/xray-latency.png)
 
-Promtheus & Grafana dashboards have also automatically been configured:
+## Grafana / Prometheus Integration
+
+Promtheus & Grafana dashboards have also automatically been configured.
 
 ```bash
 $ kubectl -n appmesh-system port-forward svc/grafana 3000:3000
 $ open http://localhost:3000
 ```
 
-![grafana-services-dashboard](images/grafana-service-dashboard.png)
+There are two preconfigured dashboards provided; one that provides a general overview of AWS App Mesh, and another that provides a per-service view. 
+
+![grafana-appmesh-overview](images/appmesh-dashboard-overview.png)
+
+![grafana-appmesh-per-service](images/appmesh-dashboard-per-service.png)
 
 ## Uninstall
 

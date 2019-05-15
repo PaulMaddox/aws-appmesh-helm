@@ -41,9 +41,9 @@ metadata:
     helm.sh/chart: {{ include "aws-appmesh-inject.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-  annotations:
-    "helm.sh/hook": "pre-install"
-    "helm.sh/hook-delete-policy": "before-hook-creation"
+  # annotations:
+  #   "helm.sh/hook": "pre-install"
+  #   "helm.sh/hook-delete-policy": "before-hook-creation"
 type: Opaque
 data:
   cert.pem: {{ b64enc $cert.Cert }}
