@@ -9,13 +9,14 @@ brew install kubernetes-cli kubernetes-helm weaveworks/tap/eksctl
 
 # deploy a K8s cluster (takes ~10min)
 eksctl create cluster --appmesh-access
+```
 
-# verify the cluster is up, and nodes are connected
-kubectl get nodes
+You can verify the cluster created successfully by running `kubectl get nodes`. You should see something similar to the output below:
+
+```
 NAME                                           STATUS   ROLES    AGE   VERSION
 ip-192-168-10-51.eu-west-1.compute.internal    Ready    <none>   0d   v1.11.5
 ip-192-168-14-229.eu-west-1.compute.internal   Ready    <none>   0d   v1.11.5
-```
 
 ## Install Helm
 
@@ -38,9 +39,9 @@ Deploy AWS App Mesh. This will deploy a mutating webhook admission controller to
 helm install -n aws-appmesh --namespace appmesh-system https://github.com/PaulMaddox/aws-appmesh-helm/releases/latest/download/aws-appmesh.tgz
 ```
 
-Confirm the AWS App Mesh pods are up and running:
+Confirm the AWS App Mesh pods are up and running with `kubectl get pods -n appmesh-system`. The output should look similar to below:
+
 ```bash
-kubectl get pods -n appmesh-system
 NAME                                      READY   STATUS              RESTARTS   AGE
 aws-appmesh-controller-7bcf7d87cf-7lgbq   1/1     Running             0          1m
 aws-appmesh-grafana-5b87c9cf9-8m67p       1/1     Running             0          1m
@@ -65,10 +66,9 @@ helm install -n aws-appmesh-demo --namespace appmesh-demo https://github.com/Pau
 
 ```
 
-Confirm the demo pods have been deployed. 
+Confirm the demo pods have been deployed with `kubectl get pods -n appmesh-demo`. The output should look similar to below:
 
-```bash
-kubectl get all -n appmesh-demo
+```
 NAME                             READY   STATUS    RESTARTS   AGE
 load-generator-bb87d68fc-mr4vc   4/4     Running       1          19s
 load-generator-bb87d68fc-rmzjc   4/4     Running       1          19s
