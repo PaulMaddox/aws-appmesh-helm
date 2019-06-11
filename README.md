@@ -26,8 +26,26 @@ It will setup:
 brew tap weaveworks/tap
 brew install kubernetes-cli kubernetes-helm weaveworks/tap/eksctl
 
+# create a cluster configuration file (replace the region with your choice)
+$ cat > cluster.yaml
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: appmesh-demo
+  region: eu-west-1
+nodeGroups:
+  - name: default
+    instanceType: m5.large
+    desiredCapacity: 2
+    iam:
+      withAddonPolicies:
+        albIngress: true
+        autoScaler: true
+        appMesh: true
+        xRay: true
+
 # deploy a K8s cluster (takes ~10min)
-eksctl create cluster --appmesh-access
+eksctl create cluster -f cluster.yaml
 ```
 
 You can verify the cluster created successfully by running `kubectl get nodes`. You should see something similar to the output below:
