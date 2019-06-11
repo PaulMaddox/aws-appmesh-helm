@@ -27,7 +27,7 @@ brew tap weaveworks/tap
 brew install kubernetes-cli kubernetes-helm weaveworks/tap/eksctl
 
 # create a cluster configuration file (replace the region with your choice)
-$ cat > cluster.yaml
+cat << EOF > cluster.yaml
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
@@ -43,6 +43,7 @@ nodeGroups:
         autoScaler: true
         appMesh: true
         xRay: true
+EOF
 
 # deploy a K8s cluster (takes ~10min)
 eksctl create cluster -f cluster.yaml
