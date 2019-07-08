@@ -78,6 +78,21 @@ Deploy AWS App Mesh. This will deploy a mutating webhook admission controller to
 helm install -n aws-appmesh --namespace appmesh-system https://github.com/PaulMaddox/aws-appmesh-helm/releases/latest/download/aws-appmesh.tgz
 ```
 
+### Install AWS App Mesh without X-Ray or StatsD
+If you do not want X-Ray or StatsD/Prometheus integration built into your App Mesh deployment, create a yaml file and add the following:
+
+```yaml
+aws-appmesh-inject:
+  enableStatsD: false
+  enableStatsDTags: false
+  enableStatsDExporter: false
+  enableXRay: false
+```
+Then specify that override file on the command line:
+```bash
+helm install -n aws-appmesh --namespace appmesh-system -f ./override_yaml_filename https://github.com/PaulMaddox/aws-appmesh-helm/releases/latest/download/aws-appmesh.tgz
+```
+
 Confirm the AWS App Mesh pods are up and running with `kubectl get pods -n appmesh-system`. The output should look similar to below:
 
 ```bash
@@ -125,7 +140,7 @@ These are:
  - AWS X-Ray daemon sidecar
  - StatsD Prometheus exporter
 
-It's completely possible to disable AWS X-Ray, or the StatsD prometheus exporter if you do not need them. // TODO: provide details around overriding helm chart values for this.
+It's completely possible to disable AWS X-Ray, or the StatsD prometheus exporter if you do not need them. [See this section for more info](#install-aws-app-mesh-without-x-ray-or-statsd)
 
 ## AWS X-Ray Integration
 
