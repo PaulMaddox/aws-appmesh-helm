@@ -43,6 +43,7 @@ nodeGroups:
         autoScaler: true
         appMesh: true
         xRay: true
+        cloudWatch: true
 EOF
 
 # deploy a K8s cluster (takes ~10min)
