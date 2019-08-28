@@ -19,7 +19,7 @@ webHookImage:
 
 envoyImage: 
   repository: 111345817488.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy
-  tag: v1.9.0.0-prod
+  tag: v1.11.1.0-prod
 
 initImage:
   repository: 111345817488.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-proxy-route-manager
